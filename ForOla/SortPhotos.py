@@ -41,9 +41,9 @@ class ImageSorter:
         # Then we want to group data and save it to one pd.DataFrame obj
         df.set_index('DATE', inplace=True, drop=True)
         time = self.interval
-        if self.unit == "MINUTES":
+        if self.unit == "MINUTY":
             time *= 60
-        if self.unit == 'DAYS':
+        if self.unit == 'DNI':
             time *= 86400
         df['groupid'] = (  ( df.index.to_series()-df.index[0] ).dt.seconds / time   ).astype(int)
         df2 = pd.DataFrame( df.groupby('groupid').describe()["FILE"]['count'].astype(int) )
