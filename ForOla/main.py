@@ -23,7 +23,7 @@ class Controler:
 		try:
 			assert self.path_to_folder!=''
 			sorter = ImageSorter(self.path_to_folder, self.createCopy.isChecked())
-			sorter.sort()
+			sorter.sort_by_date(self.Unit, self.Interval)
 		except AssertionError:
 			self.show_popup('You have not any folder', 'Please select folder using dedicated button')
 		except IndexError:
