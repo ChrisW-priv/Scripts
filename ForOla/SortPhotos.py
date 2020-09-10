@@ -12,7 +12,7 @@ class ImageSorter:
     def __del__(self):
         os.remove(self.sort_file_name)
 
-    def sort_by_date(self, interval, unit):
+    def sort_by_date(self, unit, interval):
         self.interval=interval
         self.unit=unit
         self.get_data()
