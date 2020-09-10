@@ -12,7 +12,9 @@ class ImageSorter:
     def __del__(self):
         os.remove(self.sort_file_name)
 
-    def sort(self):
+    def sort_by_date(self, interval, unit):
+        self.interval=interval
+        self.unit=unit
         self.get_data()
         self.group_photos_by_id()
 
@@ -38,7 +40,12 @@ class ImageSorter:
         df['DATE'] = pd.to_datetime(df['DATE'], format='%Y:%m:%d %H:%M:%S')
         # Then we want to group data and save it to one pd.DataFrame obj
         df.set_index('DATE', inplace=True, drop=True)
-        df['groupid'] = (  ( df.index.to_series()-df.index[0] ).dt.seconds / (30)   ).astype(int)
+        time = self.interval
+        if self.unit == "MINUTES":
+            time *= 60
+        if self.unit == 'DAYS':
+            time *= 86400
+        df['groupid'] = (  ( df.index.to_series()-df.index[0] ).dt.seconds / time   ).astype(int)
         df2 = pd.DataFrame( df.groupby('groupid').describe()["FILE"]['count'].astype(int) )
         df3 = df.merge(df2, on='groupid', how='left')
         # And save it to file
