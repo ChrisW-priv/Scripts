@@ -13,8 +13,8 @@ class ImageSorter:
         os.remove(self.sort_file_name)
 
     def sort_by_date(self, unit, interval):
-        self.interval=interval
-        self.unit=unit
+        self.interval=int(interval)
+        self.unit=str(unit)
         self.get_data()
         self.group_photos_by_id()
 
@@ -34,7 +34,7 @@ class ImageSorter:
                             exif = { ExifTags.TAGS[k]: v for k, v in img._getexif().items() if k in ExifTags.TAGS }
                             time = exif['DateTime']
                             
-                            df = df.append( {'FILE': full_path_to_file,'DATE': time}, ignore_index=True)
+                            df = df.append( {'FILE': full_path_to_file,'DATE': time}, ignore_index=True )
         
         # Format date the way we want as currently it is string and we want datetime obj
         df['DATE'] = pd.to_datetime(df['DATE'], format='%Y:%m:%d %H:%M:%S')
@@ -62,7 +62,7 @@ class ImageSorter:
                         import shutil
                         try:
                             os.makedirs( os.path.join( self.copy_to,line['groupid'] ), exist_ok=True )
-                            shutil.copy2(  line['FILE'],os.path.join( self.copy_to,line['groupid'],filename )  )
+                            shutil.copy2(  line['FILE'], os.path.join( self.copy_to,line['groupid'],filename )  )
                         except:
                             continue 
                     else:
@@ -73,3 +73,4 @@ class ImageSorter:
 if __name__ == "__main__":
     path_to_directory = 'PATH_TO_DIRECTORY'
     sorter = ImageSorter(path_to_directory)
+    sorter.sort_by_date(20, "SEKUND")

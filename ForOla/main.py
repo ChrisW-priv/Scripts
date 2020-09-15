@@ -37,7 +37,6 @@ class Controler:
 			else:
 				self.show_popup('Sorting Ended', 'Program finished and sorted all your Photos in original directory')
 
-
 	def show_popup(self, title, msg):
 		from PyQt5.QtWidgets import QMessageBox
 
